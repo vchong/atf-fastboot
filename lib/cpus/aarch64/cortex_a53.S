@@ -150,4 +150,7 @@ func cortex_a53_cpu_reg_dump
 	mrs	x8, CPUECTLR_EL1
 	ret
 
-declare_cpu_ops cortex_a53, CORTEX_A53_MIDR
+declare_cpu_ops cortex_a53, CORTEX_A53_MIDR, \
+	cortex_a53_reset_func, \
+	cortex_a53_core_pwr_dwn, \
+	cortex_a53_cluster_pwr_dwn

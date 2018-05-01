@@ -42,26 +42,70 @@
 /* Word size for 64-bit CPUs */
 #define CPU_WORD_SIZE			8
 
-	/*
-	 * Define the offsets to the fields in cpu_ops structure.
-	 */
-	.struct 0
-CPU_MIDR: /* cpu_ops midr */
-	.space  8
-/* Reset fn is needed in BL at reset vector */
-#if IMAGE_BL1 || IMAGE_BL31
-CPU_RESET_FUNC: /* cpu_ops reset_func */
-	.space  8
+#if defined(IMAGE_BL1) || defined(IMAGE_BL31) ||(defined(IMAGE_BL2) && BL2_AT_EL3)
+#define IMAGE_AT_EL3
 #endif
-#if IMAGE_BL31 /* The power down core and cluster is needed only in BL31 */
-CPU_PWR_DWN_OPS: /* cpu_ops power down functions */
-	.space  (8 * CPU_MAX_PWR_DWN_OPS)
+
+/*
+ * Whether errata status needs reporting. Errata status is printed in debug
+ * builds for both BL1 and BL31 images.
+ */
+#if (defined(IMAGE_BL1) || defined(IMAGE_BL31)) && DEBUG
+# define REPORT_ERRATA	1
+#else
+# define REPORT_ERRATA	0
 #endif
-#if (IMAGE_BL31 && CRASH_REPORTING)
-CPU_REG_DUMP: /* cpu specific register dump for crash reporting */
-	.space  8
+
+
+	.equ	CPU_MIDR_SIZE, CPU_WORD_SIZE
+	.equ	CPU_EXTRA1_FUNC_SIZE, CPU_WORD_SIZE
+	.equ	CPU_EXTRA2_FUNC_SIZE, CPU_WORD_SIZE
+	.equ	CPU_RESET_FUNC_SIZE, CPU_WORD_SIZE
+	.equ	CPU_PWR_DWN_OPS_SIZE, CPU_WORD_SIZE * CPU_MAX_PWR_DWN_OPS
+	.equ	CPU_ERRATA_FUNC_SIZE, CPU_WORD_SIZE
+	.equ	CPU_ERRATA_LOCK_SIZE, CPU_WORD_SIZE
+	.equ	CPU_ERRATA_PRINTED_SIZE, CPU_WORD_SIZE
+	.equ	CPU_REG_DUMP_SIZE, CPU_WORD_SIZE
+
+#ifndef IMAGE_AT_EL3
+	.equ	CPU_RESET_FUNC_SIZE, 0
 #endif
-CPU_OPS_SIZE = .
+
+/* The power down core and cluster is needed only in BL31 */
+#ifndef IMAGE_BL31
+	.equ	CPU_PWR_DWN_OPS_SIZE, 0
+#endif
+
+/* Fields required to print errata status. */
+#if !REPORT_ERRATA
+	.equ	CPU_ERRATA_FUNC_SIZE, 0
+#endif
+
+/* Only BL31 requieres mutual exclusion and printed flag.  */
+#if !(REPORT_ERRATA && defined(IMAGE_BL31))
+	.equ	CPU_ERRATA_LOCK_SIZE, 0
+	.equ	CPU_ERRATA_PRINTED_SIZE, 0
+#endif
+
+#if !defined(IMAGE_BL31) || !CRASH_REPORTING
+	.equ	CPU_REG_DUMP_SIZE, 0
+#endif
+
+/*
+ * Define the offsets to the fields in cpu_ops structure.
+ * Every offset is defined based in the offset and size of the previous
+ * field.
+ */
+	.equ	CPU_MIDR, 0
+	.equ	CPU_RESET_FUNC, CPU_MIDR + CPU_MIDR_SIZE
+	.equ	CPU_EXTRA1_FUNC, CPU_RESET_FUNC + CPU_RESET_FUNC_SIZE
+	.equ	CPU_EXTRA2_FUNC, CPU_EXTRA1_FUNC + CPU_EXTRA1_FUNC_SIZE
+	.equ	CPU_PWR_DWN_OPS, CPU_EXTRA2_FUNC + CPU_EXTRA2_FUNC_SIZE
+	.equ	CPU_ERRATA_FUNC, CPU_PWR_DWN_OPS + CPU_PWR_DWN_OPS_SIZE
+	.equ	CPU_ERRATA_LOCK, CPU_ERRATA_FUNC + CPU_ERRATA_FUNC_SIZE
+	.equ	CPU_ERRATA_PRINTED, CPU_ERRATA_LOCK + CPU_ERRATA_LOCK_SIZE
+	.equ	CPU_REG_DUMP, CPU_ERRATA_PRINTED + CPU_ERRATA_PRINTED_SIZE
+	.equ	CPU_OPS_SIZE, CPU_REG_DUMP + CPU_REG_DUMP_SIZE
 
 	/*
 	 * Write given expressions as quad words

@@ -123,7 +123,7 @@ SECTIONS
          * as device memory.  No other unexpected data must creep in.
          * Ensure the rest of the current memory page is unused.
          */
-        . = NEXT(4096);
+        . = ALIGN(4096);
         __COHERENT_RAM_END__ = .;
     } >RAM
 #endif

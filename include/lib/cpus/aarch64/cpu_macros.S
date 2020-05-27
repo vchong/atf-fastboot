@@ -36,25 +36,29 @@
 	/*
 	 * Define the offsets to the fields in cpu_ops structure.
 	 */
-	.struct 0
-CPU_MIDR: /* cpu_ops midr */
-	.space  8
+	.equ	CPU_MIDR_SIZE, 8
 /* Reset fn is needed in BL at reset vector */
+	.equ	CPU_RESET_FUNC_SIZE, 0
 #if IMAGE_BL1 || IMAGE_BL31
-CPU_RESET_FUNC: /* cpu_ops reset_func */
-	.space  8
+	.equ	CPU_RESET_FUNC_SIZE, 8
 #endif
+	.equ	CPU_PWR_DWN_CORE_SIZE, 0
+	.equ	CPU_PWR_DWN_CLUSTER_SIZE, 0
 #if IMAGE_BL31 /* The power down core and cluster is needed only in BL3-1 */
-CPU_PWR_DWN_CORE: /* cpu_ops core_pwr_dwn */
-	.space  8
-CPU_PWR_DWN_CLUSTER: /* cpu_ops cluster_pwr_dwn */
-	.space  8
+	.equ	CPU_PWR_DWN_CORE_SIZE, 8
+	.equ	CPU_PWR_DWN_CLUSTER_SIZE, 8
 #endif
+	.equ	CPU_REG_DUMP_SIZE, 0
 #if (IMAGE_BL31 && CRASH_REPORTING)
-CPU_REG_DUMP: /* cpu specific register dump for crash reporting */
-	.space  8
+	.equ	CPU_REG_DUMP_SIZE, 8
 #endif
-CPU_OPS_SIZE = .
+
+	.equ	CPU_MIDR, 0
+	.equ	CPU_RESET_FUNC, CPU_MIDR + CPU_MIDR_SIZE
+	.equ	CPU_PWR_DWN_CORE, CPU_RESET_FUNC + CPU_RESET_FUNC_SIZE
+	.equ	CPU_PWR_DWN_CLUSTER, CPU_PWR_DWN_CORE + CPU_PWR_DWN_CORE_SIZE
+	.equ	CPU_REG_DUMP, CPU_PWR_DWN_CLUSTER + CPU_PWR_DWN_CLUSTER_SIZE
+	.equ	CPU_OPS_SIZE, CPU_REG_DUMP + CPU_REG_DUMP_SIZE
 
 	/*
 	 * Convenience macro to declare cpu_ops structure.

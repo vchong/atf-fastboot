@@ -94,7 +94,11 @@ $(eval $(call add_define,DEBUG))
 ifneq (${DEBUG}, 0)
 	BUILD_TYPE	:=	debug
 	CFLAGS		+= 	-g
-	ASFLAGS		+= 	-g -Wa,--gdwarf-2
+	ifneq ($(findstring clang,$(notdir $(CC))),)
+		ASFLAGS +=	-g
+	else
+		ASFLAGS += 	-g -Wa,--gdwarf-2
+	endif
 	# Use LOG_LEVEL_INFO by default for debug builds
 	LOG_LEVEL	:=	40
 else
@@ -137,6 +141,14 @@ CFLAGS			+= 	-nostdinc -ffreestanding -Wall			\
 ifneq ($(findstring clang,$(notdir $(CC))),)
 CFLAGS			+=	-target aarch64-elf
 CFLAGS			+=	-ffunction-sections -fdata-sections
+LD			=	ld.lld
+AS			=	$(CC) -c -x assembler-with-cpp $(CFLAGS)
+CPP			=	$(CC) -E
+PP			=	$(CC) -E
+OC			=	llvm-objcopy
+OD			=	llvm-objdump
+AR			=	llvm-ar
+NM			=	llvm-nm
 else
 CFLAGS			+=	-march=armv8-a
 CFLAGS			+=	-ffunction-sections -fdata-sections		\

@@ -155,6 +155,9 @@ CFLAGS			+=	-ffunction-sections -fdata-sections		\
 				-fno-delete-null-pointer-checks
 endif
 
+LDFLAGS			+=	--fatal-warnings -O1
+LDFLAGS			+=	--gc-sections
+
 $(info $$CC is [${CC}])
 $(info $$LD is [${LD}])
 $(info $$AS is [${AS}])
@@ -165,11 +168,8 @@ $(info $$OC is [${OC}])
 $(info $$OD is [${OD}])
 $(info $$NM is [${NM}])
 $(info $$CFLAGS is [${CFLAGS}])
-$(info $$OBJCOPY is [${OBJCOPY}])
-
-LDFLAGS			+=	--fatal-warnings -O1
-LDFLAGS			+=	--gc-sections
-
+$(info $$ASFLAGS is [${ASFLAGS}])
+$(info $$LDFLAGS is [${LDFLAGS}])
 
 ################################################################################
 # Common sources and include directories

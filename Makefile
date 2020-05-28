@@ -155,6 +155,18 @@ CFLAGS			+=	-ffunction-sections -fdata-sections		\
 				-fno-delete-null-pointer-checks
 endif
 
+$(info $$CC is [${CC}])
+$(info $$LD is [${LD}])
+$(info $$AS is [${AS}])
+$(info $$AR is [${AR}])
+$(info $$PP is [${PP}])
+$(info $$CPP is [${CPP}])
+$(info $$OC is [${OC}])
+$(info $$OD is [${OD}])
+$(info $$NM is [${NM}])
+$(info $$CFLAGS is [${CFLAGS}])
+$(info $$OBJCOPY is [${OBJCOPY}])
+
 LDFLAGS			+=	--fatal-warnings -O1
 LDFLAGS			+=	--gc-sections
 

@@ -141,6 +141,12 @@ CFLAGS			+= 	-nostdinc -ffreestanding -Wall			\
 ifneq ($(findstring clang,$(notdir $(CC))),)
 CFLAGS			+=	-target aarch64-elf
 CFLAGS			+=	-ffunction-sections -fdata-sections
+
+# needed for 9.0.3 and 9.0.8
+# 9.0.3 builds with error
+CFLAGS			+=	-Wno-unused-command-line-argument
+ASFLAG			+=	-Wno-unused-command-line-argument
+
 LD			=	ld.lld
 AS			=	$(CC) -c -x assembler-with-cpp $(CFLAGS)
 CPP			=	$(CC) -E
@@ -158,6 +164,7 @@ endif
 LDFLAGS			+=	--fatal-warnings -O1
 LDFLAGS			+=	--gc-sections
 
+$(info clang ver is [$(shell clang --version)])
 $(info $$CC is [${CC}])
 $(info $$LD is [${LD}])
 $(info $$AS is [${AS}])

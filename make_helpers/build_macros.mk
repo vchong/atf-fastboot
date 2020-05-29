@@ -268,7 +268,7 @@ $(DUMP): $(ELF)
 	$${Q}$${OD} -dx $$< > $$@
 
 $(BIN): $(ELF)
-	@echo "  BIN     $$@"
+	@echo "  BIN     $$@ $$<"
 	$$(Q)$$(OC) -O binary $$< $$@
 	@echo
 	@echo "Built $$@ successfully"

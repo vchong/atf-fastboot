@@ -212,7 +212,7 @@ INCLUDES		+=	-Iinclude/common		\
 BUILD_BASE		:=	./build
 BUILD_PLAT		:=	${BUILD_BASE}/${PLAT}/${BUILD_TYPE}
 
-PLATFORMS		:=	$(shell ls -I common plat/)
+PLATFORMS		:=	hikey
 HELP_PLATFORMS		:=	$(shell echo ${PLATFORMS} | sed 's/ /|/g')
 
 # Platforms providing their own TBB makefile may override this value

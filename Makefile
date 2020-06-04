@@ -134,16 +134,20 @@ ifneq ($(findstring clang,$(notdir $(CC))),)
 ASFLAGS			+=	-nostdinc -ffreestanding -Wa,--fatal-warnings	\
 				-Werror -Wmissing-include-dirs			\
 				${DEFINES} ${INCLUDES}
+CFLAGS			+=	-nostdinc -ffreestanding -Wall			\
+				-Wmissing-include-dirs				\
+				-mgeneral-regs-only -mstrict-align		\
+				-std=gnu99 -Os ${DEFINES} ${INCLUDES}
 else
 ASFLAGS			+=	-nostdinc -ffreestanding -Wa,--fatal-warnings	\
 				-Werror -Wmissing-include-dirs			\
 				-mgeneral-regs-only -D__ASSEMBLY__		\
 				${DEFINES} ${INCLUDES}
-endif
 CFLAGS			+=	-nostdinc -ffreestanding -Wall			\
 				-Wmissing-include-dirs				\
 				-mgeneral-regs-only -mstrict-align		\
 				-std=gnu99 -c -Os ${DEFINES} ${INCLUDES} -fno-pic
+endif
 ifneq ($(findstring clang,$(notdir $(CC))),)
 CFLAGS			+=	-target aarch64-elf
 CFLAGS			+=	-ffunction-sections -fdata-sections
@@ -151,7 +155,7 @@ CFLAGS			+=	-ffunction-sections -fdata-sections
 # needed for 9.0.3 and 9.0.8
 # 9.0.3 builds with error
 CFLAGS			+=	-Wno-unused-command-line-argument
-ASFLAG			+=	-Wno-unused-command-line-argument
+ASFLAGS			+=	-Wno-unused-command-line-argument
 
 LD			=	ld.lld
 AS			=	$(CC) -c -x assembler-with-cpp -target aarch64-elf \

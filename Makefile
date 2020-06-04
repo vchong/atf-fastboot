@@ -93,11 +93,11 @@ export Q
 $(eval $(call add_define,DEBUG))
 ifneq (${DEBUG}, 0)
 	BUILD_TYPE	:=	debug
-	CFLAGS		+= 	-g
+	CFLAGS		+=	-g
 	ifneq ($(findstring clang,$(notdir $(CC))),)
 		ASFLAGS +=	-g
 	else
-		ASFLAGS += 	-g -Wa,--gdwarf-2
+		ASFLAGS +=	-g -Wa,--gdwarf-2
 	endif
 	# Use LOG_LEVEL_INFO by default for debug builds
 	LOG_LEVEL	:=	40
@@ -130,14 +130,20 @@ OD			:=	${CROSS_COMPILE}objdump
 NM			:=	${CROSS_COMPILE}nm
 PP			:=	${CROSS_COMPILE}gcc -E
 
-ASFLAGS			+= 	-nostdinc -ffreestanding -Wa,--fatal-warnings	\
+ifneq ($(findstring clang,$(notdir $(CC))),)
+ASFLAGS			+=	-nostdinc -ffreestanding -Wa,--fatal-warnings	\
+				-Werror -Wmissing-include-dirs			\
+				${DEFINES} ${INCLUDES}
+else
+ASFLAGS			+=	-nostdinc -ffreestanding -Wa,--fatal-warnings	\
 				-Werror -Wmissing-include-dirs			\
 				-mgeneral-regs-only -D__ASSEMBLY__		\
 				${DEFINES} ${INCLUDES}
-CFLAGS			+= 	-nostdinc -ffreestanding -Wall			\
+endif
+CFLAGS			+=	-nostdinc -ffreestanding -Wall			\
 				-Wmissing-include-dirs				\
 				-mgeneral-regs-only -mstrict-align		\
-				-std=c99 -c -Os ${DEFINES} ${INCLUDES} -fno-pic
+				-std=gnu99 -c -Os ${DEFINES} ${INCLUDES} -fno-pic
 ifneq ($(findstring clang,$(notdir $(CC))),)
 CFLAGS			+=	-target aarch64-elf
 CFLAGS			+=	-ffunction-sections -fdata-sections
@@ -148,13 +154,27 @@ CFLAGS			+=	-Wno-unused-command-line-argument
 ASFLAG			+=	-Wno-unused-command-line-argument
 
 LD			=	ld.lld
-AS			=	$(CC) -c -x assembler-with-cpp $(CFLAGS)
+AS			=	$(CC) -c -x assembler-with-cpp -target aarch64-elf \
+				-march=armv8-a -mgeneral-regs-only -mstrict-align
 CPP			=	$(CC) -E
 PP			=	$(CC) -E
 OC			=	llvm-objcopy
 OD			=	llvm-objdump
 AR			=	llvm-ar
 NM			=	llvm-nm
+
+# additions based on TF-A clang build rev de9d0d7c7ffc592e34f9c8c38c1971556d4d4de8
+# Merge "Tegra: enable SDEI handling" into integration
+CFLAGS			+=	-Werror -Wunused -Wdisabled-optimization -Wvla \
+				-Wshadow -Wno-unused-parameter -Wredundant-decls \
+				-Wshift-overflow -Wshift-sign-overflow \
+				-Wlogical-op-parentheses -fno-builtin -fno-common \
+				-march=armv8-a
+ASFLAGS			+=	-Wall -Wunused -Wdisabled-optimization -Wvla \
+				-Wshadow -Wno-unused-parameter -Wredundant-decls \
+				-Wshift-overflow -Wshift-sign-overflow \
+				-Wlogical-op-parentheses -march=armv8-a
+
 else
 CFLAGS			+=	-march=armv8-a
 CFLAGS			+=	-ffunction-sections -fdata-sections		\

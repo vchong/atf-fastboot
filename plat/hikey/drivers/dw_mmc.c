@@ -43,16 +43,16 @@
 
 #define MMC_PLL			100000000
 
-#define IDMAC_DES0_DIC		(1 << 1)
-#define IDMAC_DES0_LD		(1 << 2)
-#define IDMAC_DES0_FS		(1 << 3)
-#define IDMAC_DES0_CH		(1 << 4)
-#define IDMAC_DES0_ER		(1 << 5)
-#define IDMAC_DES0_CES		(1 << 30)
-#define IDMAC_DES0_OWN		(1 << 31)
+#define IDMAC_DES0_DIC		((uint32_t)1 << 1)
+#define IDMAC_DES0_LD		((uint32_t)1 << 2)
+#define IDMAC_DES0_FS		((uint32_t)1 << 3)
+#define IDMAC_DES0_CH		((uint32_t)1 << 4)
+#define IDMAC_DES0_ER		((uint32_t)1 << 5)
+#define IDMAC_DES0_CES		((uint32_t)1 << 30)
+#define IDMAC_DES0_OWN		((uint32_t)1 << 31)
 
 #define IDMAC_DES1_BS1(x)	((x) & 0x1fff)
-#define IDMAC_DES2_BS2(x)	(((x) & 0x1fff) << 13)
+#define IDMAC_DES2_BS2(x)	((uint32_t)((x) & 0x1fff) << 13)
 
 struct idmac_desc {
 	unsigned int		des0;

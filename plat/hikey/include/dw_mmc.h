@@ -63,65 +63,65 @@
 #define MMC0_CARDTHRCTL				(MMC0_BASE + 0X100)
 
 #define CMD_UPDATE_CLK				0x80202000
-#define CMD_START_BIT				(1 << 31)
+#define CMD_START_BIT				((uint32_t)1 << 31)
 
-#define MMC_8BIT_MODE				(1 << 16)
+#define MMC_8BIT_MODE				((uint32_t)1 << 16)
 
 #define MMC_BLOCK_SIZE				512
 
-#define BIT_CMD_RESPONSE_EXPECT			(1 << 6)
-#define BIT_CMD_LONG_RESPONSE			(1 << 7)
-#define BIT_CMD_CHECK_RESPONSE_CRC		(1 << 8)
-#define BIT_CMD_DATA_EXPECTED			(1 << 9)
-#define BIT_CMD_READ				(0 << 10)
-#define BIT_CMD_WRITE				(1 << 10)
-#define BIT_CMD_BLOCK_TRANSFER			(0 << 11)
-#define BIT_CMD_STREAM_TRANSFER			(1 << 11)
-#define BIT_CMD_SEND_AUTO_STOP			(1 << 12)
-#define BIT_CMD_WAIT_PRVDATA_COMPLETE		(1 << 13)
-#define BIT_CMD_STOP_ABORT_CMD			(1 << 14)
-#define BIT_CMD_SEND_INIT			(1 << 15)
-#define BIT_CMD_UPDATE_CLOCK_ONLY		(1 << 21)
-#define BIT_CMD_READ_CEATA_DEVICE		(1 << 22)
-#define BIT_CMD_CCS_EXPECTED			(1 << 23)
-#define BIT_CMD_ENABLE_BOOT			(1 << 24)
-#define BIT_CMD_EXPECT_BOOT_ACK			(1 << 25)
-#define BIT_CMD_DISABLE_BOOT			(1 << 26)
-#define BIT_CMD_MANDATORY_BOOT			(0 << 27)
-#define BIT_CMD_ALTERNATE_BOOT			(1 << 27)
-#define BIT_CMD_VOLT_SWITCH			(1 << 28)
-#define BIT_CMD_USE_HOLD_REG			(1 << 29)
-#define BIT_CMD_START				(1 << 31)
+#define BIT_CMD_RESPONSE_EXPECT			((uint32_t)1 << 6)
+#define BIT_CMD_LONG_RESPONSE			((uint32_t)1 << 7)
+#define BIT_CMD_CHECK_RESPONSE_CRC		((uint32_t)1 << 8)
+#define BIT_CMD_DATA_EXPECTED			((uint32_t)1 << 9)
+#define BIT_CMD_READ				((uint32_t)0 << 10)
+#define BIT_CMD_WRITE				((uint32_t)1 << 10)
+#define BIT_CMD_BLOCK_TRANSFER			((uint32_t)0 << 11)
+#define BIT_CMD_STREAM_TRANSFER			((uint32_t)1 << 11)
+#define BIT_CMD_SEND_AUTO_STOP			((uint32_t)1 << 12)
+#define BIT_CMD_WAIT_PRVDATA_COMPLETE		((uint32_t)1 << 13)
+#define BIT_CMD_STOP_ABORT_CMD			((uint32_t)1 << 14)
+#define BIT_CMD_SEND_INIT			((uint32_t)1 << 15)
+#define BIT_CMD_UPDATE_CLOCK_ONLY		((uint32_t)1 << 21)
+#define BIT_CMD_READ_CEATA_DEVICE		((uint32_t)1 << 22)
+#define BIT_CMD_CCS_EXPECTED			((uint32_t)1 << 23)
+#define BIT_CMD_ENABLE_BOOT			((uint32_t)1 << 24)
+#define BIT_CMD_EXPECT_BOOT_ACK			((uint32_t)1 << 25)
+#define BIT_CMD_DISABLE_BOOT			((uint32_t)1 << 26)
+#define BIT_CMD_MANDATORY_BOOT			((uint32_t)0 << 27)
+#define BIT_CMD_ALTERNATE_BOOT			((uint32_t)1 << 27)
+#define BIT_CMD_VOLT_SWITCH			((uint32_t)1 << 28)
+#define BIT_CMD_USE_HOLD_REG			((uint32_t)1 << 29)
+#define BIT_CMD_START				((uint32_t)1 << 31)
 
-#define MMC_INT_EBE			(1 << 15)	/* End-bit Err */
-#define MMC_INT_SBE			(1 << 13)	/* Start-bit  Err */
-#define MMC_INT_HLE			(1 << 12)	/* Hardware-lock Err */
-#define MMC_INT_FRUN			(1 << 11)	/* FIFO UN/OV RUN */
-#define MMC_INT_DRT			(1 << 9)	/* Data timeout */
-#define MMC_INT_RTO			(1 << 8)	/* Response timeout */
-#define MMC_INT_DCRC			(1 << 7)	/* Data CRC err */
-#define MMC_INT_RCRC			(1 << 6)	/* Response CRC err */
-#define MMC_INT_RXDR			(1 << 5)
-#define MMC_INT_TXDR			(1 << 4)
-#define MMC_INT_DTO			(1 << 3)	/* Data trans over */
-#define MMC_INT_CMD_DONE		(1 << 2)
-#define MMC_INT_RE			(1 << 1)
+#define MMC_INT_EBE			((uint32_t)1 << 15)	/* End-bit Err */
+#define MMC_INT_SBE			((uint32_t)1 << 13)	/* Start-bit  Err */
+#define MMC_INT_HLE			((uint32_t)1 << 12)	/* Hardware-lock Err */
+#define MMC_INT_FRUN			((uint32_t)1 << 11)	/* FIFO UN/OV RUN */
+#define MMC_INT_DRT			((uint32_t)1 << 9)	/* Data timeout */
+#define MMC_INT_RTO			((uint32_t)1 << 8)	/* Response timeout */
+#define MMC_INT_DCRC			((uint32_t)1 << 7)	/* Data CRC err */
+#define MMC_INT_RCRC			((uint32_t)1 << 6)	/* Response CRC err */
+#define MMC_INT_RXDR			((uint32_t)1 << 5)
+#define MMC_INT_TXDR			((uint32_t)1 << 4)
+#define MMC_INT_DTO			((uint32_t)1 << 3)	/* Data trans over */
+#define MMC_INT_CMD_DONE		((uint32_t)1 << 2)
+#define MMC_INT_RE			((uint32_t)1 << 1)
 
 #define EMMC_FIX_RCA				6
 
 /* bits in MMC0_CTRL */
-#define MMC_CTRL_RESET				(1 << 0)
-#define MMC_FIFO_RESET				(1 << 1)
-#define MMC_DMA_RESET				(1 << 2)
-#define MMC_INT_EN				(1 << 4)
-#define MMC_DMA_EN				(1 << 25)
+#define MMC_CTRL_RESET				((uint32_t)1 << 0)
+#define MMC_FIFO_RESET				((uint32_t)1 << 1)
+#define MMC_DMA_RESET				((uint32_t)1 << 2)
+#define MMC_INT_EN				((uint32_t)1 << 4)
+#define MMC_DMA_EN				((uint32_t)1 << 25)
 
-#define MMC_STS_DATA_BUSY			(1 << 9)
+#define MMC_STS_DATA_BUSY			((uint32_t)1 << 9)
 
-#define MMC_STATUS_CURRENT_STATE_MASK	(0xf << 9)
+#define MMC_STATUS_CURRENT_STATE_MASK	((uint32_t)0xf << 9)
 #define MMC_STATUS_CURRENT_STATE_SHIFT	9
-#define MMC_STATUS_READY_FOR_DATA	(1 << 8)
-#define MMC_STATUS_SWITCH_ERROR		(1 << 7)
+#define MMC_STATUS_READY_FOR_DATA	((uint32_t)1 << 8)
+#define MMC_STATUS_SWITCH_ERROR		((uint32_t)1 << 7)
 
 #define MMC_STATE_IDLE			0
 #define MMC_STATE_READY			1
@@ -138,19 +138,19 @@
 #define EXT_CSD_CACHE_CTRL		33
 #define EXT_CSD_PARTITION_CONFIG	179
 
-#define PART_CFG_BOOT_PARTITION1_ENABLE	(1 << 3)
-#define PART_CFG_PARTITION1_ACCESS	(1 << 0)
+#define PART_CFG_BOOT_PARTITION1_ENABLE	((uint32_t)1 << 3)
+#define PART_CFG_PARTITION1_ACCESS	((uint32_t)1 << 0)
 
-#define MMC_IDMAC_ENABLE			(1 << 7)
-#define MMC_IDMAC_FB				(1 << 1)
-#define MMC_IDMAC_SWRESET			(1 << 0)
+#define MMC_IDMAC_ENABLE			((uint32_t)1 << 7)
+#define MMC_IDMAC_FB				((uint32_t)1 << 1)
+#define MMC_IDMAC_SWRESET			((uint32_t)1 << 0)
 
 #define MMC_FIFO_TWMARK(x)			(x & 0xfff)
-#define MMC_FIFO_RWMARK(x)			((x & 0x1ff) << 16)
-#define MMC_DMA_BURST_SIZE(x)			((x & 0x7) << 28)
+#define MMC_FIFO_RWMARK(x)			((uint32_t)(x & 0x1ff) << 16)
+#define MMC_DMA_BURST_SIZE(x)			((uint32_t)(x & 0x7) << 28)
 
-#define MMC_CARD_RD_THR(x)			((x & 0xfff) << 16)
-#define MMC_CARD_RD_THR_EN			(1 << 0)
+#define MMC_CARD_RD_THR(x)			((uint32_t)(x & 0xfff) << 16)
+#define MMC_CARD_RD_THR_EN			((uint32_t)1 << 0)
 
 extern int init_mmc(void);
 extern int mmc0_read(unsigned long, size_t, unsigned long, uint32_t);

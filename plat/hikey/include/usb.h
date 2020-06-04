@@ -45,8 +45,8 @@
 #define RX_REQ_LEN			512
 #define MAX_PACKET_LEN			512
 
-#define DATA_FIFO_CONFIG		(0x780 << GDFIFOCFG_EPINFOBASE_SHIFT |\
-					 0x800 << GDFIFOCFG_GDFIFOCFG_SHIFT)
+#define DATA_FIFO_CONFIG		((uint32_t)0x780 << GDFIFOCFG_EPINFOBASE_SHIFT |\
+					 (uint32_t)0x800 << GDFIFOCFG_GDFIFOCFG_SHIFT)
 /* RX FIFO: 2048 bytes */
 #define RX_SIZE				0x00000200
 /* Non-periodic TX FIFO: 128 bytes. start address: 0x200 * 4. */
@@ -119,18 +119,18 @@ struct usb_request {
 /* Core Global Registers */
 #define GOTGCTL			(DWC_OTG_BASE + 0x000)
 #define GOTGINT			(DWC_OTG_BASE + 0x004)
-#define GOTGINT_DBNCE_DONE		(1 << 19)
-#define GOTGINT_A_DEV_TOUT_CHG		(1 << 18)
-#define GOTGINT_HST_NEG_DET		(1 << 17)
-#define GOTGINT_HST_NEG_SUC_STS_CHNG	(1 << 9)
-#define GOTGINT_SES_REQ_SUC_STS_CHNG	(1 << 8)
-#define GOTGINT_SES_END_DET		(1 << 2)
+#define GOTGINT_DBNCE_DONE		((uint32_t)1 << 19)
+#define GOTGINT_A_DEV_TOUT_CHG		((uint32_t)1 << 18)
+#define GOTGINT_HST_NEG_DET		((uint32_t)1 << 17)
+#define GOTGINT_HST_NEG_SUC_STS_CHNG	((uint32_t)1 << 9)
+#define GOTGINT_SES_REQ_SUC_STS_CHNG	((uint32_t)1 << 8)
+#define GOTGINT_SES_END_DET		((uint32_t)1 << 2)
 
 #define GAHBCFG			(DWC_OTG_BASE + 0x008)
-#define GAHBCFG_P_TXF_EMP_LVL           (1 << 8)
-#define GAHBCFG_NP_TXF_EMP_LVL          (1 << 7)
-#define GAHBCFG_DMA_EN                  (1 << 5)
-#define GAHBCFG_GLBL_INTR_EN            (1 << 0)
+#define GAHBCFG_P_TXF_EMP_LVL           ((uint32_t)1 << 8)
+#define GAHBCFG_NP_TXF_EMP_LVL          ((uint32_t)1 << 7)
+#define GAHBCFG_DMA_EN                  ((uint32_t)1 << 5)
+#define GAHBCFG_GLBL_INTR_EN            ((uint32_t)1 << 0)
 #define GAHBCFG_CTRL_MASK               (GAHBCFG_P_TXF_EMP_LVL | \
 					 GAHBCFG_NP_TXF_EMP_LVL | \
 					 GAHBCFG_DMA_EN | \
@@ -138,43 +138,43 @@ struct usb_request {
 
 #define GUSBCFG			(DWC_OTG_BASE + 0x00C)
 #define GRSTCTL			(DWC_OTG_BASE + 0x010)
-#define GRSTCTL_AHBIDLE		(1 << 31)
-#define GRSTCTL_CSFTRST		(1 << 0)
+#define GRSTCTL_AHBIDLE		((uint32_t)1 << 31)
+#define GRSTCTL_CSFTRST		((uint32_t)1 << 0)
 
 #define GINTSTS			(DWC_OTG_BASE + 0x014)
 #define GINTMSK			(DWC_OTG_BASE + 0x018)
-#define GINTSTS_WKUPINT			(1 << 31)
-#define GINTSTS_SESSREQINT		(1 << 30)
-#define GINTSTS_DISCONNINT		(1 << 29)
-#define GINTSTS_CONIDSTSCHNG		(1 << 28)
-#define GINTSTS_LPMTRANRCVD		(1 << 27)
-#define GINTSTS_PTXFEMP			(1 << 26)
-#define GINTSTS_HCHINT			(1 << 25)
-#define GINTSTS_PRTINT			(1 << 24)
-#define GINTSTS_RESETDET		(1 << 23)
-#define GINTSTS_FET_SUSP		(1 << 22)
-#define GINTSTS_INCOMPL_IP		(1 << 21)
-#define GINTSTS_INCOMPL_SOIN		(1 << 20)
-#define GINTSTS_OEPINT			(1 << 19)
-#define GINTSTS_IEPINT			(1 << 18)
-#define GINTSTS_EPMIS			(1 << 17)
-#define GINTSTS_RESTOREDONE		(1 << 16)
-#define GINTSTS_EOPF			(1 << 15)
-#define GINTSTS_ISOUTDROP		(1 << 14)
-#define GINTSTS_ENUMDONE		(1 << 13)
-#define GINTSTS_USBRST			(1 << 12)
-#define GINTSTS_USBSUSP			(1 << 11)
-#define GINTSTS_ERLYSUSP		(1 << 10)
-#define GINTSTS_I2CINT			(1 << 9)
-#define GINTSTS_ULPI_CK_INT		(1 << 8)
-#define GINTSTS_GOUTNAKEFF		(1 << 7)
-#define GINTSTS_GINNAKEFF		(1 << 6)
-#define GINTSTS_NPTXFEMP		(1 << 5)
-#define GINTSTS_RXFLVL			(1 << 4)
-#define GINTSTS_SOF			(1 << 3)
-#define GINTSTS_OTGINT			(1 << 2)
-#define GINTSTS_MODEMIS			(1 << 1)
-#define GINTSTS_CURMODE_HOST		(1 << 0)
+#define GINTSTS_WKUPINT			((uint32_t)1 << 31)
+#define GINTSTS_SESSREQINT		((uint32_t)1 << 30)
+#define GINTSTS_DISCONNINT		((uint32_t)1 << 29)
+#define GINTSTS_CONIDSTSCHNG		((uint32_t)1 << 28)
+#define GINTSTS_LPMTRANRCVD		((uint32_t)1 << 27)
+#define GINTSTS_PTXFEMP			((uint32_t)1 << 26)
+#define GINTSTS_HCHINT			((uint32_t)1 << 25)
+#define GINTSTS_PRTINT			((uint32_t)1 << 24)
+#define GINTSTS_RESETDET		((uint32_t)1 << 23)
+#define GINTSTS_FET_SUSP		((uint32_t)1 << 22)
+#define GINTSTS_INCOMPL_IP		((uint32_t)1 << 21)
+#define GINTSTS_INCOMPL_SOIN		((uint32_t)1 << 20)
+#define GINTSTS_OEPINT			((uint32_t)1 << 19)
+#define GINTSTS_IEPINT			((uint32_t)1 << 18)
+#define GINTSTS_EPMIS			((uint32_t)1 << 17)
+#define GINTSTS_RESTOREDONE		((uint32_t)1 << 16)
+#define GINTSTS_EOPF			((uint32_t)1 << 15)
+#define GINTSTS_ISOUTDROP		((uint32_t)1 << 14)
+#define GINTSTS_ENUMDONE		((uint32_t)1 << 13)
+#define GINTSTS_USBRST			((uint32_t)1 << 12)
+#define GINTSTS_USBSUSP			((uint32_t)1 << 11)
+#define GINTSTS_ERLYSUSP		((uint32_t)1 << 10)
+#define GINTSTS_I2CINT			((uint32_t)1 << 9)
+#define GINTSTS_ULPI_CK_INT		((uint32_t)1 << 8)
+#define GINTSTS_GOUTNAKEFF		((uint32_t)1 << 7)
+#define GINTSTS_GINNAKEFF		((uint32_t)1 << 6)
+#define GINTSTS_NPTXFEMP		((uint32_t)1 << 5)
+#define GINTSTS_RXFLVL			((uint32_t)1 << 4)
+#define GINTSTS_SOF			((uint32_t)1 << 3)
+#define GINTSTS_OTGINT			((uint32_t)1 << 2)
+#define GINTSTS_MODEMIS			((uint32_t)1 << 1)
+#define GINTSTS_CURMODE_HOST		((uint32_t)1 << 0)
 
 #define GRXSTSR			(DWC_OTG_BASE + 0x01C)
 #define GRXSTSP			(DWC_OTG_BASE + 0x020)
@@ -189,9 +189,9 @@ struct usb_request {
 #define GLPMCFG			(DWC_OTG_BASE + 0x054)
 
 #define GDFIFOCFG		(DWC_OTG_BASE + 0x05c)
-#define GDFIFOCFG_EPINFOBASE_MASK	(0xffff << 16)
+#define GDFIFOCFG_EPINFOBASE_MASK	((uint32_t)0xffff << 16)
 #define GDFIFOCFG_EPINFOBASE_SHIFT	16
-#define GDFIFOCFG_GDFIFOCFG_MASK	(0xffff << 0)
+#define GDFIFOCFG_GDFIFOCFG_MASK	((uint32_t)0xffff << 0)
 #define GDFIFOCFG_GDFIFOCFG_SHIFT	0
 
 
@@ -332,9 +332,9 @@ struct usb_request {
 /*** DEVICE MODE REGISTERS ***/
 /* Device Global Registers */
 #define DCFG        		(DWC_OTG_BASE + 0x800)
-#define DCFG_EPMISCNT_MASK		(0x1f << 18)
+#define DCFG_EPMISCNT_MASK		((uint32_t)0x1f << 18)
 #define DCFG_EPMISCNT_SHIFT		18
-#define DCFG_NZ_STS_OUT_HSHK		(1 << 2)
+#define DCFG_NZ_STS_OUT_HSHK		((uint32_t)1 << 2)
 
 #define DCTL        		(DWC_OTG_BASE + 0x804)
 #define DSTS        		(DWC_OTG_BASE + 0x808)
@@ -343,8 +343,8 @@ struct usb_request {
 #define DAINT       		(DWC_OTG_BASE + 0x818)
 #define DAINTMSK    		(DWC_OTG_BASE + 0x81C)
 #define DAINT_OUTEP_SHIFT		16
-#define DAINT_OUTEP(_x)			(1 << ((_x) + 16))
-#define DAINT_INEP(_x)			(1 << (_x))
+#define DAINT_OUTEP(_x)			((uint32_t)1 << ((_x) + 16))
+#define DAINT_INEP(_x)			((uint32_t)1 << (_x))
 
 #define DTKNQR1     		(DWC_OTG_BASE + 0x820)
 #define DTKNQR2     		(DWC_OTG_BASE + 0x824)
@@ -426,62 +426,62 @@ struct usb_request {
 
 /* Device Logical OUT Endpoint-Specific Registers */
 #define DOEPCTL(x)  		(DWC_OTG_BASE + 0xB00 + 0x20 * (x))
-#define DXEPCTL_EPENA			(1 << 31)
-#define DXEPCTL_EPDIS			(1 << 30)
-#define DXEPCTL_SETD1PID		(1 << 29)
-#define DXEPCTL_SETODDFR		(1 << 29)
-#define DXEPCTL_SETD0PID		(1 << 28)
-#define DXEPCTL_SETEVENFR		(1 << 28)
-#define DXEPCTL_SNAK			(1 << 27)
-#define DXEPCTL_CNAK			(1 << 26)
-#define DXEPCTL_NAKSTS			(1 << 17)
-#define DXEPCTL_DPID			(1 << 16)
-#define DXEPCTL_EOFRNUM			(1 << 16)
-#define DXEPCTL_USBACTEP		(1 << 15)
-#define DXEPCTL_NEXTEP_MASK		(0xf << 11)
+#define DXEPCTL_EPENA			((uint32_t)1 << 31)
+#define DXEPCTL_EPDIS			((uint32_t)1 << 30)
+#define DXEPCTL_SETD1PID		((uint32_t)1 << 29)
+#define DXEPCTL_SETODDFR		((uint32_t)1 << 29)
+#define DXEPCTL_SETD0PID		((uint32_t)1 << 28)
+#define DXEPCTL_SETEVENFR		((uint32_t)1 << 28)
+#define DXEPCTL_SNAK			((uint32_t)1 << 27)
+#define DXEPCTL_CNAK			((uint32_t)1 << 26)
+#define DXEPCTL_NAKSTS			((uint32_t)1 << 17)
+#define DXEPCTL_DPID			((uint32_t)1 << 16)
+#define DXEPCTL_EOFRNUM			((uint32_t)1 << 16)
+#define DXEPCTL_USBACTEP		((uint32_t)1 << 15)
+#define DXEPCTL_NEXTEP_MASK		((uint32_t)0xf << 11)
 #define DXEPCTL_NEXTEP_SHIFT		11
 #define DXEPCTL_NEXTEP_LIMIT		0xf
-#define DXEPCTL_NEXTEP(_x)		((_x) << 11)
+#define DXEPCTL_NEXTEP(_x)		((uint32_t)(_x) << 11)
 
 
 #define DOEPINT(x)  		(DWC_OTG_BASE + 0xB08 + 0x20 * (x))
-#define DXEPINT_INEPNAKEFF              (1 << 6)
-#define DXEPINT_BACK2BACKSETUP          (1 << 6)
-#define DXEPINT_INTKNEPMIS              (1 << 5)
-#define DXEPINT_INTKNTXFEMP             (1 << 4)
-#define DXEPINT_OUTTKNEPDIS             (1 << 4)
-#define DXEPINT_TIMEOUT                 (1 << 3)
-#define DXEPINT_SETUP                   (1 << 3)
-#define DXEPINT_AHBERR                  (1 << 2)
-#define DXEPINT_EPDISBLD                (1 << 1)
-#define DXEPINT_XFERCOMPL               (1 << 0)
+#define DXEPINT_INEPNAKEFF              ((uint32_t)1 << 6)
+#define DXEPINT_BACK2BACKSETUP          ((uint32_t)1 << 6)
+#define DXEPINT_INTKNEPMIS              ((uint32_t)1 << 5)
+#define DXEPINT_INTKNTXFEMP             ((uint32_t)1 << 4)
+#define DXEPINT_OUTTKNEPDIS             ((uint32_t)1 << 4)
+#define DXEPINT_TIMEOUT                 ((uint32_t)1 << 3)
+#define DXEPINT_SETUP                   ((uint32_t)1 << 3)
+#define DXEPINT_AHBERR                  ((uint32_t)1 << 2)
+#define DXEPINT_EPDISBLD                ((uint32_t)1 << 1)
+#define DXEPINT_XFERCOMPL               ((uint32_t)1 << 0)
 
 #define DOEPTSIZ(x) 		(DWC_OTG_BASE + 0xB10 + 0x20 * (x))
-#define DXEPTSIZ_MC_MASK		(0x3 << 29)
+#define DXEPTSIZ_MC_MASK		((uint32_t)0x3 << 29)
 #define DXEPTSIZ_MC_SHIFT		29
 #define DXEPTSIZ_MC_LIMIT		0x3
-#define DXEPTSIZ_MC(_x)			((_x) << 29)
-#define DXEPTSIZ_PKTCNT_MASK		(0x3ff << 19)
+#define DXEPTSIZ_MC(_x)			((uint32_t)(_x) << 29)
+#define DXEPTSIZ_PKTCNT_MASK		((uint32_t)0x3ff << 19)
 #define DXEPTSIZ_PKTCNT_SHIFT		19
 #define DXEPTSIZ_PKTCNT_LIMIT		0x3ff
-#define DXEPTSIZ_PKTCNT_GET(_v)		(((_v) >> 19) & 0x3ff)
-#define DXEPTSIZ_PKTCNT(_x)		((_x) << 19)
-#define DXEPTSIZ_XFERSIZE_MASK		(0x7ffff << 0)
+#define DXEPTSIZ_PKTCNT_GET(_v)		(((uint32_t)(_v) >> 19) & 0x3ff)
+#define DXEPTSIZ_PKTCNT(_x)		((uint32_t)(_x) << 19)
+#define DXEPTSIZ_XFERSIZE_MASK		((uint32_t)0x7ffff << 0)
 #define DXEPTSIZ_XFERSIZE_SHIFT		0
 #define DXEPTSIZ_XFERSIZE_LIMIT		0x7ffff
 #define DXEPTSIZ_XFERSIZE_GET(_v)	(((_v) >> 0) & 0x7ffff)
-#define DXEPTSIZ_XFERSIZE(_x)		((_x) << 0)
+#define DXEPTSIZ_XFERSIZE(_x)		((uint32_t)(_x) << 0)
 
 #define DOEPDMA(x)  		(DWC_OTG_BASE + 0xB14 + 0x20 * (x))
 #define DOEPCTL0    		(DWC_OTG_BASE + 0xB00)
 #define DOEPINT0    		(DWC_OTG_BASE + 0xB08)
 #define DOEPTSIZ0   		(DWC_OTG_BASE + 0xB10)
-#define DOEPTSIZ0_SUPCNT_MASK		(0x3 << 29)
+#define DOEPTSIZ0_SUPCNT_MASK		((uint32_t)0x3 << 29)
 #define DOEPTSIZ0_SUPCNT_SHIFT		29
 #define DOEPTSIZ0_SUPCNT_LIMIT		0x3
-#define DOEPTSIZ0_SUPCNT(_x)		((_x) << 29)
-#define DOEPTSIZ0_PKTCNT		(1 << 19)
-#define DOEPTSIZ0_XFERSIZE_MASK		(0x7f << 0)
+#define DOEPTSIZ0_SUPCNT(_x)		((uint32_t)(_x) << 29)
+#define DOEPTSIZ0_PKTCNT		((uint32_t)1 << 19)
+#define DOEPTSIZ0_XFERSIZE_MASK		((uint32_t)0x7f << 0)
 #define DOEPTSIZ0_XFERSIZE_SHIFT	0
 
 #define DOEPDMA0    		(DWC_OTG_BASE + 0xB14)
@@ -551,39 +551,39 @@ struct usb_request {
 
 #define EP0FIFO			(DWC_OTG_BASE + 0x1000)
 
-#define PERI_CTRL16_PICOPHY_SIDDQ_BIT		(1<<0)
-#define PERI_CTRL16_PICOPHY_TXPREEMPHASISTUNE	(1<<31)
-#define PERI_CTRL15_HSICPHY_SIDDQ_BIT		(1<<16)
-#define PERI_CTRL14_NANOPHY_SIDDQ_BIT		(1<<0)
-#define PERI_CTRL0_USB2DVC_NANOPHY_BIT		(1<<7)
-#define NANOPHY_DMPULLDOWN    (1 << 6)    /* bit[6]：nanophy_dmpulldown；为1'b0 */
-#define NANOPHY_DPPULLDOWN    (1 << 5)    /* bit[5]：nanophy_dppulldown；为1'b0 */
+#define PERI_CTRL16_PICOPHY_SIDDQ_BIT		((uint32_t)1<<0)
+#define PERI_CTRL16_PICOPHY_TXPREEMPHASISTUNE	((uint32_t)1<<31)
+#define PERI_CTRL15_HSICPHY_SIDDQ_BIT		((uint32_t)1<<16)
+#define PERI_CTRL14_NANOPHY_SIDDQ_BIT		((uint32_t)1<<0)
+#define PERI_CTRL0_USB2DVC_NANOPHY_BIT		((uint32_t)1<<7)
+#define NANOPHY_DMPULLDOWN    ((uint32_t)1 << 6)    /* bit[6]：nanophy_dmpulldown；为1'b0 */
+#define NANOPHY_DPPULLDOWN    ((uint32_t)1 << 5)    /* bit[5]：nanophy_dppulldown；为1'b0 */
 
-#define EN_LDO4_INT (1 << 4)
-#define EN_LDO8_INT (1 << 4)
+#define EN_LDO4_INT ((uint32_t)1 << 4)
+#define EN_LDO8_INT ((uint32_t)1 << 4)
 
 /* SCPEREN1/DIS1 */
-#define GT_CLK_USBHSICPHY480            (1<<26)
-#define GT_CLK_USBHSICPHY               (1<<25)
-#define GT_CLK_USBPICOPHY               (1<<24)
-#define GT_CLK_USBNANOPHY               (1<<23)
+#define GT_CLK_USBHSICPHY480            ((uint32_t)1<<26)
+#define GT_CLK_USBHSICPHY               ((uint32_t)1<<25)
+#define GT_CLK_USBPICOPHY               ((uint32_t)1<<24)
+#define GT_CLK_USBNANOPHY               ((uint32_t)1<<23)
 /* SCPEREN3/DIS3 */
-#define GT_CLK_USB2HST                  (1<<18)
-#define GT_CLK_USB2DVC                  (1<<17)
+#define GT_CLK_USB2HST                  ((uint32_t)1<<18)
+#define GT_CLK_USB2DVC                  ((uint32_t)1<<17)
 /* SCPERRSTEN3 */
-#define IP_RST_PICOPHY_POR              (1<<31)
-#define IP_RST_HSICPHY_POR              (1<<30)
-#define IP_RST_NANOPHY_POR              (1<<29)
-#define IP_RST_USB2DVC_PHY              (1<<28)
-#define IP_RST_USB2H_UTMI1              (1<<21)
-#define IP_RST_USB2H_UTMI0              (1<<20)
-#define IP_RST_USB2H_PHY                (1<<19)
-#define IP_RST_USB2HST                  (1<<18)
-#define IP_RST_USB2DVC                  (1<<17)
+#define IP_RST_PICOPHY_POR              ((uint32_t)1<<31)
+#define IP_RST_HSICPHY_POR              ((uint32_t)1<<30)
+#define IP_RST_NANOPHY_POR              ((uint32_t)1<<29)
+#define IP_RST_USB2DVC_PHY              ((uint32_t)1<<28)
+#define IP_RST_USB2H_UTMI1              ((uint32_t)1<<21)
+#define IP_RST_USB2H_UTMI0              ((uint32_t)1<<20)
+#define IP_RST_USB2H_PHY                ((uint32_t)1<<19)
+#define IP_RST_USB2HST                  ((uint32_t)1<<18)
+#define IP_RST_USB2DVC                  ((uint32_t)1<<17)
 /* SCPERRSTEN1 */
-#define IP_RST_HSICPHY                  (1<<25)
-#define IP_RST_PICOPHY                  (1<<24)
-#define IP_RST_NANOPHY                  (1<<23)
+#define IP_RST_HSICPHY                  ((uint32_t)1<<25)
+#define IP_RST_PICOPHY                  ((uint32_t)1<<24)
+#define IP_RST_NANOPHY                  ((uint32_t)1<<23)
 
 /*
  * USB directions
@@ -733,10 +733,10 @@ struct usb_config_descriptor {
 #define USB_DT_CONFIG_SIZE              9
 
 /* from config descriptor bmAttributes */
-#define USB_CONFIG_ATT_ONE              (1 << 7)        /* must be set */
-#define USB_CONFIG_ATT_SELFPOWER        (1 << 6)        /* self powered */
-#define USB_CONFIG_ATT_WAKEUP           (1 << 5)        /* can wakeup */
-#define USB_CONFIG_ATT_BATTERY          (1 << 4)        /* battery powered */
+#define USB_CONFIG_ATT_ONE              ((uint32_t)1 << 7)        /* must be set */
+#define USB_CONFIG_ATT_SELFPOWER        ((uint32_t)1 << 6)        /* self powered */
+#define USB_CONFIG_ATT_WAKEUP           ((uint32_t)1 << 5)        /* can wakeup */
+#define USB_CONFIG_ATT_BATTERY          ((uint32_t)1 << 4)        /* battery powered */
 
 /*-------------------------------------------------------------------------*/
 

@@ -1215,21 +1215,21 @@ int init_usb(void)
 
 static struct ptentry *flash_ptn = NULL;
 
-static void fb_getvar(char *cmdbuf)
+static void fb_getvar(char *cmd_buf)
 {
 	char response[64];
 	char part_name[32];
 	int bytes;
 	struct ptentry *ptn = 0;
 
-	if (!strncmp(cmdbuf + 7, "max-download-size", 17)) {
+	if (!strncmp(cmd_buf + 7, "max-download-size", 17)) {
 		bytes = sprintf(response, "OKAY0x%08x",
 				FB_MAX_FILE_SIZE);
 		response[bytes] = '\0';
 		tx_status(response);
 		rx_cmd();
-	} else if (!strncmp(cmdbuf + 7, "partition-type:", 15)) {
-		bytes = sprintf(part_name, "%s", cmdbuf + 22);
+	} else if (!strncmp(cmd_buf + 7, "partition-type:", 15)) {
+		bytes = sprintf(part_name, "%s", cmd_buf + 22);
 		ptn = find_ptn(part_name);
 		if (ptn == NULL) {
 			bytes = sprintf(response, "FAIL%s",
@@ -1238,8 +1238,8 @@ static void fb_getvar(char *cmdbuf)
 			flash_ptn = NULL;
 		} else {
 			flash_ptn = ptn;
-			if (!strncmp(cmdbuf +22, "system", 6) || !strncmp(cmdbuf +22, "userdata", 8) ||
-				!strncmp(cmdbuf +22, "cache", 5)) {
+			if (!strncmp(cmd_buf +22, "system", 6) || !strncmp(cmd_buf +22, "userdata", 8) ||
+				!strncmp(cmd_buf +22, "cache", 5)) {
 				bytes = sprintf(response, "OKAYext4");
 				response[bytes] = '\0';
 			} else {
@@ -1249,8 +1249,8 @@ static void fb_getvar(char *cmdbuf)
 		}
 		tx_status(response);
 		rx_cmd();
-        } else if (!strncmp(cmdbuf + 7, "partition-size:", 15)) {
-                bytes = sprintf(part_name, "%s", cmdbuf + 22);
+        } else if (!strncmp(cmd_buf + 7, "partition-size:", 15)) {
+                bytes = sprintf(part_name, "%s", cmd_buf + 22);
                 ptn = find_ptn(part_name);
                 if (ptn == NULL) {
                         bytes = sprintf(response, "FAIL%s",
@@ -1264,23 +1264,23 @@ static void fb_getvar(char *cmdbuf)
                 }
                 tx_status(response);
                 rx_cmd();
-	} else if (!strncmp(cmdbuf + 7, "serialno", 8)) {
+	} else if (!strncmp(cmd_buf + 7, "serialno", 8)) {
 		bytes = sprintf(response, "OKAY%s",
 				load_serialno());
 		response[bytes] = '\0';
 		tx_status(response);
 		rx_cmd();
-	} else if (!strncmp(cmdbuf + 7, "version-bootloader", 18)) {
+	} else if (!strncmp(cmd_buf + 7, "version-bootloader", 18)) {
 		bytes = sprintf(response, "OKAY%s", VERSION_BOOTLOADER);
 		response[bytes] = '\0';
 		tx_status(response);
 		rx_cmd();
-	} else if (!strncmp(cmdbuf + 7, "version-baseband", 16)) {
+	} else if (!strncmp(cmd_buf + 7, "version-baseband", 16)) {
 		bytes = sprintf(response, "OKAYN/A");
 		response[bytes] = '\0';
 		tx_status(response);
 		rx_cmd();
-	} else if (!strncmp(cmdbuf + 7, "product", 8)) {
+	} else if (!strncmp(cmd_buf + 7, "product", 8)) {
 		bytes = sprintf(response, "OKAYhikey");
 		response[bytes] = '\0';
 		tx_status(response);
@@ -1328,7 +1328,7 @@ static unsigned long strtoul(const char *nptr, char **endptr, int base)
 	return data;
 }
 
-static void fb_serialno(char *cmdbuf)
+static void fb_serialno(char *cmd_buf)
 {
 	struct random_serial_num random;
 
@@ -1336,12 +1336,12 @@ static void fb_serialno(char *cmdbuf)
 	flush_random_serialno((unsigned long)&random, sizeof(random));
 }
 
-static int fb_assigned_sn(char *cmdbuf)
+static int fb_assigned_sn(char *cmd_buf)
 {
 	struct random_serial_num random;
 	int ret;
 
-	ret = assign_serialno(cmdbuf, &random);
+	ret = assign_serialno(cmd_buf, &random);
 	if (ret < 0)
 		return ret;
 	flush_random_serialno((unsigned long)&random, sizeof(random));
@@ -1352,7 +1352,7 @@ static int fb_assigned_sn(char *cmdbuf)
 
 static unsigned long fb_download_base, fb_download_size;
 
-static void fb_download(char *cmdbuf)
+static void fb_download(char *cmd_buf)
 {
 	char response[64];
 	int bytes;
@@ -1365,7 +1365,7 @@ static void fb_download(char *cmdbuf)
 		rx_cmd();
 	} else {
 		rx_addr = FB_DOWNLOAD_BASE;
-		rx_length = strtoul(cmdbuf + 9, NULL, 16);
+		rx_length = strtoul(cmd_buf + 9, NULL, 16);
 		fb_download_base = rx_addr;
 		fb_download_size = rx_length;
 		if (rx_length > FB_MAX_FILE_SIZE) {
@@ -1386,14 +1386,14 @@ static void fb_download(char *cmdbuf)
 	}
 }
 
-static void fb_flash(char *cmdbuf)
+static void fb_flash(char *cmd_buf)
 {
-	flush_user_images(cmdbuf + 6, fb_download_base, fb_download_size);
+	flush_user_images(cmd_buf + 6, fb_download_base, fb_download_size);
 	tx_status("OKAY");
 	rx_cmd();
 }
 
-static void fb_reboot(char *cmdbuf)
+static void fb_reboot(char *cmd_buf)
 {
 	/* Send the system reset request */
 	mmio_write_32(AO_SC_SYS_STAT0, 0x48698284);
@@ -1402,9 +1402,9 @@ static void fb_reboot(char *cmdbuf)
 	panic();
 }
 
-static void fb_erase(char *cmdbuf)
+static void fb_erase(char *cmd_buf)
 {
-	erase_partitions(cmdbuf + 6, FB_DOWNLOAD_BASE, FB_MAX_FILE_SIZE);
+	erase_partitions(cmd_buf + 6, FB_DOWNLOAD_BASE, FB_MAX_FILE_SIZE);
 	tx_status("OKAY");
 	rx_cmd();
 }

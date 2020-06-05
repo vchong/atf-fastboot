@@ -46,9 +46,10 @@
  ******************************************************************************/
 
 /* Size of cacheable stacks */
-#define PLATFORM_STACK_SIZE		0x800
+//https://github.com/ARM-software/arm-trusted-firmware/pull/1449
+#define PLATFORM_STACK_SIZE		0x1000
 
-#define FIRMWARE_WELCOME_STR		"Booting Trusted Firmware\n"
+#define FIRMWARE_WELCOME_STR		"Booting ATF-Fastboot\n"
 
 #define LOADER_MEM_NAME			"loader_mem"
 

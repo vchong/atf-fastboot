@@ -131,6 +131,7 @@ NM			:=	${CROSS_COMPILE}nm
 PP			:=	${CROSS_COMPILE}gcc -E
 
 ifneq ($(findstring clang,$(notdir $(CC))),)
+ifeq ($(foo),foo)
 ASFLAGS			+=	-nostdinc -ffreestanding -Wa,--fatal-warnings	\
 				-Werror -Wmissing-include-dirs			\
 				${DEFINES} ${INCLUDES}
@@ -138,6 +139,10 @@ CFLAGS			+=	-nostdinc -ffreestanding -Wall			\
 				-Wmissing-include-dirs				\
 				-mgeneral-regs-only -mstrict-align		\
 				-std=gnu99 -Os ${DEFINES} ${INCLUDES}
+endif
+ASFLAGS			+=	${DEFINES} ${INCLUDES}
+CFLAGS			+=	-std=gnu99 -Os ${DEFINES} ${INCLUDES}
+#CFLAGS			+=	-std=c99 -Os ${DEFINES} ${INCLUDES}
 else
 ASFLAGS			+=	-nostdinc -ffreestanding -Wa,--fatal-warnings	\
 				-Werror -Wmissing-include-dirs			\
@@ -150,7 +155,7 @@ CFLAGS			+=	-nostdinc -ffreestanding -Wall			\
 endif
 ifneq ($(findstring clang,$(notdir $(CC))),)
 CFLAGS			+=	-target aarch64-elf
-CFLAGS			+=	-ffunction-sections -fdata-sections
+#CFLAGS			+=	-ffunction-sections -fdata-sections
 
 # needed for 9.0.3 and 9.0.8
 # 9.0.3 builds with error
@@ -158,8 +163,13 @@ CFLAGS			+=	-Wno-unused-command-line-argument
 ASFLAGS			+=	-Wno-unused-command-line-argument
 
 LD			=	ld.lld
+ifeq ($(foo),foo)
+AS			=	$(CC) -c -x assembler-with-cpp $(CFLAGS)
 AS			=	$(CC) -c -x assembler-with-cpp -target aarch64-elf \
 				-march=armv8-a -mgeneral-regs-only -mstrict-align
+endif
+AS			=	$(CC) -c -x assembler-with-cpp -target aarch64-elf \
+				-march=armv8-a
 CPP			=	$(CC) -E
 PP			=	$(CC) -E
 OC			=	llvm-objcopy
@@ -169,6 +179,9 @@ NM			=	llvm-nm
 
 # additions based on TF-A clang build rev de9d0d7c7ffc592e34f9c8c38c1971556d4d4de8
 # Merge "Tegra: enable SDEI handling" into integration
+CFLAGS			+=	-march=armv8-a
+ASFLAGS			+=	-march=armv8-a
+ifeq ($(foo),foo)
 CFLAGS			+=	-Werror -Wunused -Wdisabled-optimization -Wvla \
 				-Wshadow -Wno-unused-parameter -Wredundant-decls \
 				-Wshift-overflow -Wshift-sign-overflow \
@@ -178,15 +191,16 @@ ASFLAGS			+=	-Wall -Wunused -Wdisabled-optimization -Wvla \
 				-Wshadow -Wno-unused-parameter -Wredundant-decls \
 				-Wshift-overflow -Wshift-sign-overflow \
 				-Wlogical-op-parentheses -march=armv8-a
-
+endif
 else
 CFLAGS			+=	-march=armv8-a
 CFLAGS			+=	-ffunction-sections -fdata-sections		\
 				-fno-delete-null-pointer-checks
-endif
+#endif
 
 LDFLAGS			+=	--fatal-warnings -O1
 LDFLAGS			+=	--gc-sections
+endif
 
 $(info clang ver is [$(shell clang --version)])
 $(info $$CC is [${CC}])

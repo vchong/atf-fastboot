@@ -139,8 +139,9 @@ CFLAGS			+= 	-nostdinc -ffreestanding -Wall			\
 				-mgeneral-regs-only -mstrict-align		\
 				-std=c99 -c -Os ${DEFINES} ${INCLUDES} -fno-pic
 ifneq ($(findstring clang,$(notdir $(CC))),)
-CFLAGS			+=	-target aarch64-elf
+CFLAGS			+=	-target aarch64-elf -march=armv8-a
 CFLAGS			+=	-ffunction-sections -fdata-sections
+ASFLAG			+=	-march=armv8-a
 
 # needed for 9.0.3 and 9.0.8
 # 9.0.3 builds with error

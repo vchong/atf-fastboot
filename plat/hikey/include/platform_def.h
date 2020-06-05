@@ -119,9 +119,10 @@
  * BL1 RW data is relocated from ROM to RAM at runtime so we need 2 base
  * addresses.
  ******************************************************************************/
+//https://github.com/ARM-software/tf-issues/issues/538
 #define BL1_RO_BASE			(0xf9828000)
-#define BL1_RO_LIMIT			(BL1_RO_BASE + 0x10000)
-#define BL1_RW_BASE			(BL1_RO_LIMIT)	/* 0xf983_8000 */
+#define BL1_RO_LIMIT			(BL1_RO_BASE + 0x20000)
+#define BL1_RW_BASE			(BL1_RO_LIMIT)	/* 0xf984_8000 */
 #define BL1_RW_SIZE			(0xf9898000 - BL1_RW_BASE)
 #define BL1_RW_LIMIT			(0xf9898000)
 

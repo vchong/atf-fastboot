@@ -145,17 +145,23 @@ CFLAGS			+=	-ffunction-sections -fdata-sections
 # needed for Clang 9.0.3 and 9.0.8
 # 9.0.3 builds with error
 CFLAGS			+=	-Wno-unused-command-line-argument
-ASFLAG			+=	-Wno-unused-command-line-argument
+ASFLAGS			+=	-Wno-unused-command-line-argument
 
 # this are added in TF-A too
 CFLAGS			+=	-march=armv8-a
-ASFLAG			+=	-march=armv8-a
+ASFLAGS			+=	-march=armv8-a
 
 # for debugging stack usage
 # from plat/hikey/include/platform_def.h
 # define PLATFORM_STACK_SIZE             0x1000
-CFLAGS			+=	-Wstack-usage=4096
-ASFLAG			+=	-Wstack-usage=4096
+# warning: unknown warning option '-Wstack-usage=4096'; did you mean '-Wstack-exhausted'? [-Wunknown-warning-option]
+#CFLAGS			+=	-Wstack-usage=4096
+#ASFLAGS		+=	-Wstack-usage=4096
+# clang-11: error: unknown argument: '-fstack-usage'
+#CFLAGS			+=	-fstack-usage
+#ASFLAGS		+=	-fstack-usage
+CFLAGS			+=	-Wstack-exhausted
+ASFLAGS			+=	-Wstack-exhausted
 
 LD			=	ld.lld
 AS			=	$(CC) -c -x assembler-with-cpp $(CFLAGS)

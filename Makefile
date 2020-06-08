@@ -139,14 +139,23 @@ CFLAGS			+= 	-nostdinc -ffreestanding -Wall			\
 				-mgeneral-regs-only -mstrict-align		\
 				-std=c99 -c -Os ${DEFINES} ${INCLUDES} -fno-pic
 ifneq ($(findstring clang,$(notdir $(CC))),)
-CFLAGS			+=	-target aarch64-elf -march=armv8-a
+CFLAGS			+=	-target aarch64-elf
 CFLAGS			+=	-ffunction-sections -fdata-sections
-ASFLAG			+=	-march=armv8-a
 
-# needed for 9.0.3 and 9.0.8
+# needed for Clang 9.0.3 and 9.0.8
 # 9.0.3 builds with error
 CFLAGS			+=	-Wno-unused-command-line-argument
 ASFLAG			+=	-Wno-unused-command-line-argument
+
+# this are added in TF-A too
+CFLAGS			+=	-march=armv8-a
+ASFLAG			+=	-march=armv8-a
+
+# for debugging stack usage
+# from plat/hikey/include/platform_def.h
+# define PLATFORM_STACK_SIZE             0x1000
+CFLAGS			+=	-Wstack-usage=4096
+ASFLAG			+=	-Wstack-usage=4096
 
 LD			=	ld.lld
 AS			=	$(CC) -c -x assembler-with-cpp $(CFLAGS)

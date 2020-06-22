@@ -47,7 +47,7 @@
 
 /* Size of cacheable stacks */
 //https://github.com/ARM-software/arm-trusted-firmware/pull/1449
-#define PLATFORM_STACK_SIZE		0x1000
+#define PLATFORM_STACK_SIZE		0x1800
 
 #define FIRMWARE_WELCOME_STR		"Booting ATF-Fastboot\n"
 
@@ -122,8 +122,8 @@
  ******************************************************************************/
 //https://github.com/ARM-software/tf-issues/issues/538
 #define BL1_RO_BASE			(0xf9828000)
-#define BL1_RO_LIMIT			(BL1_RO_BASE + 0x20000)
-#define BL1_RW_BASE			(BL1_RO_LIMIT)	/* 0xf984_8000 */
+#define BL1_RO_LIMIT			(BL1_RO_BASE + 0x10000)
+#define BL1_RW_BASE			(BL1_RO_LIMIT)	/* 0xf983_8000 */
 #define BL1_RW_SIZE			(0xf9898000 - BL1_RW_BASE)
 #define BL1_RW_LIMIT			(0xf9898000)
 
